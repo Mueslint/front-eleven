@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Label, Button } from 'reactstrap'
+import { Label, Button, ButtonGroup } from 'reactstrap'
+import axios from 'axios'
 
 import Astronaut from './Astronaut';
 import EditableAstronaut from './EditableAstronaut'
@@ -8,10 +9,14 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
   const [editMode, setEditMode] = useState(false)
   const [editIndex, setEditIndex] = useState(0);
 
-  const handleDelete = (index) => {
+  const handleDelete = (index, ref) => {
     setEditMode(false);
-    deleteAstronaut(index);
-    // TODO: add axios.post("//api/deleteRoute", astronaut)
+    axios.post("http://127.0.0.1:3300/deleteAstronaut", {ref})
+    .then(()=> {
+      deleteAstronaut(index);
+    })
+    .catch((err) => {console.error(err)})
+
   }
 
   const handleEdit = (index) => {
@@ -26,7 +31,7 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
       <Label>Edit mode:<strong> {editMode.toString()}</strong></Label>
       {
         astronauts.map((astronaut, index) => (
-          <ul key={astronaut.last.concat(astronaut.first)} style={{display: 'flex', flexDirection: 'column'}}>
+          <ul key={astronaut.first.concat(astronaut.last)} style={{display: 'flex', flexDirection: 'column'}}>
             {(editMode && editIndex === index) ?
               <div>
                 <EditableAstronaut
@@ -34,6 +39,7 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
                   editAstronaut={editAstronaut}
                   index={index}
                   setEditMode={setEditMode}
+                  handleDelete={handleDelete}
                 />
               </div>
 
@@ -41,9 +47,11 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
 
               <div>
                 <Astronaut astronaut={astronaut} />
-                <div style={{display: 'flex'}}>
-                  <Button color="danger" onClick={() => handleDelete(index)}>Delete</Button>
-                  <Button color="info" onClick={() => handleEdit(index)}>Edit</Button>
+                <div>
+                  <ButtonGroup>
+                    <Button color="danger" onClick={() => handleDelete(index, astronaut.ref)}>Delete</Button>
+                    <Button color="info" onClick={() => handleEdit(index)}>Edit</Button>
+                  </ButtonGroup>
                 </div>
               </div>
 

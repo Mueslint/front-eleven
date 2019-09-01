@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
-import { Container, Row, Button } from 'reactstrap'
+import { Container, Row, Button, ButtonGroup } from 'reactstrap'
+import axios from 'axios'
 
 const EditableAstronaut = ({astronaut, handleDelete, editAstronaut, setEditMode, index}) => {
   const [first, setFirst] = useState('');
@@ -7,12 +8,17 @@ const EditableAstronaut = ({astronaut, handleDelete, editAstronaut, setEditMode,
   const [country, setCountry] = useState('');
   const [gender, setGender] = useState('');
 
-  const handleSubmit = e => {
+  const handleSubmit = (e, ref) => {
     e.preventDefault();
-    const newAstronaut = {first, last, country, gender}
+    console.log(ref);
+    const updatedAstronaut = {first, last, country, gender}
     setEditMode(false);
-    editAstronaut(newAstronaut, index);
-    //TODO: add axios.post("//api/modifAstroRoute", astro)
+
+    axios.post("http://127.0.0.1:3300/updateAstronaut", {updatedAstronaut, ref})
+    .then(() => {
+      editAstronaut(updatedAstronaut, index);
+    })
+    .catch(err => console.error(err))
   }
 
   return (
@@ -32,12 +38,12 @@ const EditableAstronaut = ({astronaut, handleDelete, editAstronaut, setEditMode,
             <input type='text' placeholder={astronaut.country} onChange={e => setCountry(e.target.value)}/>
           </Row>
         </Container>
-        <Button color="success" onClick={handleSubmit}>Submit</Button>
-      </div>
-      <br/>
-      <div style={{display: 'flex'}}>
-        <Button color="danger" onClick={() => handleDelete(index)}>Delete</Button>
-        <Button color="info" onClick={() => setEditMode(false)}>Cancel</Button>
+        <br/>
+        <ButtonGroup>
+          <Button color="danger" onClick={() => handleDelete(index, astronaut.ref)}>Delete</Button>
+          <Button color="info" onClick={() => setEditMode(false)}>Cancel</Button>
+          <Button color="success" onClick={e => handleSubmit(e, astronaut.ref)}>Submit</Button>
+        </ButtonGroup>
       </div>
     </li>
   );
