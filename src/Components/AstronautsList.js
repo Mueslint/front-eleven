@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { Label, Button, ButtonGroup, Container, Card, CardBody } from 'reactstrap'
-import axios from 'axios'
+import { Label } from 'reactstrap'
+
+import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card'
+import CardContent from '@material-ui/core/CardContent';
+
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup';
+
+import axios from 'axios';
+import uuidv4 from 'uuid/v4';
 
 import Astronaut from './Astronaut';
 import EditableAstronaut from './EditableAstronaut'
@@ -32,7 +41,7 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
       <Container>
         {
           astronauts.map((astronaut, index) => (
-            <div>
+            <div key={uuidv4()}>
               {(editMode && editIndex === index) ?
                 <div>
                   <EditableAstronaut
@@ -46,16 +55,18 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
 
                 :
 
-                <Card>
-                  <CardBody>
+                <Card style={{padding: 5, margin: 10}}>
+                  <Container>
+                  <CardContent>
                     <Astronaut astronaut={astronaut} />
                     <div>
-                      <ButtonGroup>
-                        <Button color="danger" onClick={() => handleDelete(index, astronaut.ref)}>Delete</Button>
-                        <Button color="info" onClick={() => handleEdit(index)}>Edit</Button>
+                      <ButtonGroup style={{marginTop: 10}}>
+                        <Button variant="contained" style={{color:'white', backgroundColor:'#FF1744'}} onClick={() => handleDelete(index, astronaut.ref)}>Delete</Button>
+                        <Button variant="contained" style={{color: 'white', backgroundColor: '#1976d2'}} onClick={() => handleEdit(index)}>Edit</Button>
                       </ButtonGroup>
                     </div>
-                  </CardBody>
+                  </CardContent>
+                  </Container>
                 </Card>
 
               }

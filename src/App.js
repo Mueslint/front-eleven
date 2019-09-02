@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Navbar, NavbarBrand } from 'reactstrap'
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+
 import AstronautsList from './Components/AstronautsList'
-import TestForm from './Components/TestForm'
+import AstronautForm from './Components/AstronautForm'
 
 function App() {
   const [astronauts, setAstronauts] = useState([]);
@@ -40,9 +43,11 @@ function App() {
 
   return (
     <div>
-      <Navbar color="light" light expand="md">
-          <NavbarBrand href="/">Eleven labs test</NavbarBrand>
-      </Navbar>
+      <AppBar position="static" style={{backgroundColor: '#1976D2'}}>
+        <Toolbar>
+          <Typography><strong>Eleven labs test</strong></Typography>
+        </Toolbar>
+      </AppBar>
       <br/>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <AstronautsList
@@ -50,7 +55,7 @@ function App() {
           deleteAstronaut={deleteAstronaut}
           editAstronaut={editAstronaut}
         />
-        <TestForm addAstronaut={addAstronaut}/>
+      <AstronautForm addAstronaut={addAstronaut}/>
       </div>
     </div>
   );
