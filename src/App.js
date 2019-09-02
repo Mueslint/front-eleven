@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import { Navbar, NavbarBrand } from 'reactstrap'
 import AstronautsList from './Components/AstronautsList'
 import TestForm from './Components/TestForm'
 
@@ -39,7 +40,10 @@ function App() {
 
   return (
     <div>
-      <h1 style={{textAlign: 'center', padding: 30}}>Youpi Boule</h1>
+      <Navbar color="light" light expand="md">
+          <NavbarBrand href="/">Eleven labs test</NavbarBrand>
+      </Navbar>
+      <br/>
       <div style={{display: 'flex', justifyContent: 'space-around'}}>
         <AstronautsList
           astronauts={astronauts}

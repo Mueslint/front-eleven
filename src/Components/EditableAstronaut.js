@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, Row, Button, ButtonGroup } from 'reactstrap'
+import { Container, Row, Button, ButtonGroup, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 
 const EditableAstronaut = ({astronaut, handleDelete, editAstronaut, setEditMode, index}) => {
@@ -22,8 +22,8 @@ const EditableAstronaut = ({astronaut, handleDelete, editAstronaut, setEditMode,
   }
 
   return (
-    <li>
-      <div>
+    <Card>
+      <CardBody>
         <Container>
           <Row>
             <input type='text' placeholder={astronaut.first} onChange={e => setFirst(e.target.value)}/>
@@ -44,8 +44,8 @@ const EditableAstronaut = ({astronaut, handleDelete, editAstronaut, setEditMode,
           <Button color="info" onClick={() => setEditMode(false)}>Cancel</Button>
           <Button color="success" onClick={e => handleSubmit(e, astronaut.ref)}>Submit</Button>
         </ButtonGroup>
-      </div>
-    </li>
+      </CardBody>
+    </Card>
   );
 }
 

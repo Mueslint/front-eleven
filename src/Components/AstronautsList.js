@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Label, Button, ButtonGroup } from 'reactstrap'
+import { Label, Button, ButtonGroup, Container, Card, CardBody } from 'reactstrap'
 import axios from 'axios'
 
 import Astronaut from './Astronaut';
@@ -29,36 +29,41 @@ const AstronautsList = ({ astronauts, deleteAstronaut, editAstronaut }) => {
       <Label><strong>My astronauts list</strong></Label>
       <br />
       <Label>Edit mode:<strong> {editMode.toString()}</strong></Label>
-      {
-        astronauts.map((astronaut, index) => (
-          <ul key={astronaut.first.concat(astronaut.last)} style={{display: 'flex', flexDirection: 'column'}}>
-            {(editMode && editIndex === index) ?
-              <div>
-                <EditableAstronaut
-                  astronaut={astronaut}
-                  editAstronaut={editAstronaut}
-                  index={index}
-                  setEditMode={setEditMode}
-                  handleDelete={handleDelete}
-                />
-              </div>
-
-              :
-
-              <div>
-                <Astronaut astronaut={astronaut} />
+      <Container>
+        {
+          astronauts.map((astronaut, index) => (
+            <div>
+              {(editMode && editIndex === index) ?
                 <div>
-                  <ButtonGroup>
-                    <Button color="danger" onClick={() => handleDelete(index, astronaut.ref)}>Delete</Button>
-                    <Button color="info" onClick={() => handleEdit(index)}>Edit</Button>
-                  </ButtonGroup>
+                  <EditableAstronaut
+                    astronaut={astronaut}
+                    editAstronaut={editAstronaut}
+                    index={index}
+                    setEditMode={setEditMode}
+                    handleDelete={handleDelete}
+                  />
                 </div>
-              </div>
 
-            }
-          </ul>
-        ))
-      }
+                :
+
+                <Card>
+                  <CardBody>
+                    <Astronaut astronaut={astronaut} />
+                    <div>
+                      <ButtonGroup>
+                        <Button color="danger" onClick={() => handleDelete(index, astronaut.ref)}>Delete</Button>
+                        <Button color="info" onClick={() => handleEdit(index)}>Edit</Button>
+                      </ButtonGroup>
+                    </div>
+                  </CardBody>
+                </Card>
+
+              }
+            </div>
+          ))
+        }
+      </Container>
+
     </div>
   )
 };

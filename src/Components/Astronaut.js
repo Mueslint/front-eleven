@@ -3,7 +3,7 @@ import { Container, Row } from 'reactstrap'
 
 const Astronaut = ({astronaut}) => {
   return (
-    <li>
+    <div>
       <strong>{`${astronaut.first} ${astronaut.last}`}</strong>
       <div>
          <Container>
@@ -15,7 +15,7 @@ const Astronaut = ({astronaut}) => {
            </Row>
          </Container>
       </div>
-    </li>
+    </div>
   );
 }
 
